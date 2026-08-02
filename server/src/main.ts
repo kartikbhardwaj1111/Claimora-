@@ -21,9 +21,9 @@ async function bootstrap() {
     }),
   );
 
-  const port = process.env.PORT || 5000;
-  await app.listen(port);
-  console.log(`🚀 Claimora NestJS Server running on http://localhost:${port}`);
+  const port = process.env.PORT || 5001;
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Claimora NestJS Server running on port ${port}`);
 }
 
 bootstrap();
