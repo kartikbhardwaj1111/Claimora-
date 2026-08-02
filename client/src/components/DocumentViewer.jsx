@@ -4,7 +4,10 @@ import { X, FileText, ExternalLink, Download } from 'lucide-react';
 export default function DocumentViewer({ documentUrl, documentName, onClose }) {
   if (!documentUrl) return null;
 
-  const isPdf = documentUrl.toLowerCase().endsWith('.pdf') || documentName?.toLowerCase().endsWith('.pdf');
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const fullUrl = documentUrl.startsWith('/uploads') ? `${baseUrl}${documentUrl}` : documentUrl;
+
+  const isPdf = fullUrl.toLowerCase().endsWith('.pdf') || documentName?.toLowerCase().endsWith('.pdf');
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -22,14 +25,14 @@ export default function DocumentViewer({ documentUrl, documentName, onClose }) {
         <div className="modal-body" style={{ minHeight: '450px', background: '#f8fafc', padding: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '8px' }}>
           {isPdf ? (
             <object
-              data={documentUrl}
+              data={fullUrl}
               type="application/pdf"
               width="100%"
               height="480px"
               style={{ borderRadius: '8px', border: '1px solid #cbd5e1' }}
             >
               <iframe
-                src={documentUrl}
+                src={fullUrl}
                 title="PDF Preview"
                 width="100%"
                 height="480px"
@@ -38,7 +41,7 @@ export default function DocumentViewer({ documentUrl, documentName, onClose }) {
                 <div style={{ padding: '2rem', textAlign: 'center' }}>
                   <FileText size={48} color="#2563eb" style={{ margin: '0 auto 1rem' }} />
                   <p style={{ fontWeight: '600', marginBottom: '0.5rem' }}>Unable to inline preview PDF</p>
-                  <a href={documentUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                  <a href={fullUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                     <ExternalLink size={16} /> Open PDF File
                   </a>
                 </div>
@@ -46,7 +49,7 @@ export default function DocumentViewer({ documentUrl, documentName, onClose }) {
             </object>
           ) : (
             <img
-              src={documentUrl}
+              src={fullUrl}
               alt="Receipt Preview"
               style={{ maxWidth: '100%', maxHeight: '480px', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
             />
@@ -55,14 +58,14 @@ export default function DocumentViewer({ documentUrl, documentName, onClose }) {
 
         <div className="modal-footer">
           <a
-            href={documentUrl}
+            href={fullUrl}
             download={documentName || 'medical-receipt'}
             className="btn btn-secondary"
           >
             <Download size={16} /> Download
           </a>
           <a
-            href={documentUrl}
+            href={fullUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"
