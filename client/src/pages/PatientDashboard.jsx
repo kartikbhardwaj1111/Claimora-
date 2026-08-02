@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PlusCircle, Upload, FileText, CheckCircle2, Clock, DollarSign, Sparkles, FileCheck, ShieldCheck } from 'lucide-react';
+import { PlusCircle, Upload, FileText, CheckCircle2, Clock, DollarSign, Sparkles, FileCheck, ShieldCheck, AlertCircle, RefreshCw } from 'lucide-react';
 import StatusBadge from '../components/StatusBadge';
 
 export default function PatientDashboard({ currentUser, claims, onSubmitClaim, onViewDocument }) {
@@ -66,6 +66,9 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
     .reduce((sum, c) => sum + (c.approvedAmount || 0), 0);
   const pendingCount = myClaims.filter((c) => c.status === 'Pending').length;
 
+  // Latest decision claim for top banner callout
+  const latestReviewedClaim = myClaims.find((c) => c.status === 'Approved' || c.status === 'Rejected');
+
   return (
     <div>
       {/* Hero Welcome Banner */}
@@ -75,9 +78,48 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
           <div className="hero-subtitle">Submit healthcare reimbursement requests, attach receipts, and track approval status in real time.</div>
         </div>
         <div className="hero-badge">
-          <ShieldCheck size={16} /> Verified Health Portal
+          <RefreshCw size={14} className="spin-icon" style={{ animation: 'spin 4s linear infinite' }} /> Real-Time Live Sync
         </div>
       </div>
+
+      {/* Real-time Decision Alert Banner if a claim has been reviewed */}
+      {latestReviewedClaim && (
+        <div
+          style={{
+            background: latestReviewedClaim.status === 'Approved' ? '#ecfdf5' : '#fef2f2',
+            border: `1.5px solid ${latestReviewedClaim.status === 'Approved' ? '#a7f3d0' : '#fecaca'}`,
+            padding: '1.1rem 1.4rem',
+            borderRadius: '16px',
+            marginBottom: '1.75rem',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '1rem',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+          }}
+        >
+          {latestReviewedClaim.status === 'Approved' ? (
+            <CheckCircle2 size={24} color="#059669" style={{ marginTop: '2px' }} />
+          ) : (
+            <AlertCircle size={24} color="#dc2626" style={{ marginTop: '2px' }} />
+          )}
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: '800', fontSize: '0.98rem', color: latestReviewedClaim.status === 'Approved' ? '#047857' : '#b91c1c' }}>
+              Real-Time Decision Alert: Claim {latestReviewedClaim.claimId} was {latestReviewedClaim.status}!
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#334155', marginTop: '2px' }}>
+              {latestReviewedClaim.status === 'Approved' ? (
+                <span>
+                  Reimbursement of <strong>₹{latestReviewedClaim.approvedAmount?.toLocaleString()}</strong> authorized. Remarks: "{latestReviewedClaim.insurerComments || 'Approved per coverage terms.'}"
+                </span>
+              ) : (
+                <span>
+                  Claim declined. Reason: "{latestReviewedClaim.insurerComments || 'Does not meet policy coverage criteria.'}"
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 3-Step Visual Process Stepper */}
       <div className="stepper-grid">
@@ -275,7 +317,17 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
               </thead>
               <tbody>
                 {myClaims.map((c) => (
-                  <tr key={c._id || c.claimId}>
+                  <tr
+                    key={c._id || c.claimId}
+                    style={{
+                      background:
+                        c.status === 'Approved'
+                          ? '#f0fdf4'
+                          : c.status === 'Rejected'
+                          ? '#fff5f5'
+                          : 'transparent',
+                    }}
+                  >
                     <td style={{ fontWeight: '800', color: '#2563eb' }}>{c.claimId}</td>
                     <td style={{ fontWeight: '600', color: '#64748b' }}>{new Date(c.submissionDate).toLocaleDateString()}</td>
                     <td style={{ maxWidth: '220px', lineHeight: '1.4' }}>{c.description}</td>
@@ -284,7 +336,9 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
                       {c.status === 'Approved' ? `₹${c.approvedAmount?.toLocaleString()}` : '-'}
                     </td>
                     <td><StatusBadge status={c.status} /></td>
-                    <td style={{ fontSize: '0.85rem', color: '#64748b', maxWidth: '180px' }}>{c.insurerComments || 'No comments yet'}</td>
+                    <td style={{ fontSize: '0.85rem', color: '#475569', fontWeight: '600', maxWidth: '200px', lineHeight: '1.4' }}>
+                      {c.insurerComments || 'No comments yet'}
+                    </td>
                     <td>
                       <button
                         className="btn btn-secondary btn-sm"

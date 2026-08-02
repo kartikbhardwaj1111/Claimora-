@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, Info, AlertTriangle } from 'lucide-react';
+import { CheckCircle2, Info, AlertCircle, Bell } from 'lucide-react';
 import Navbar from './components/Navbar';
 import PatientDashboard from './pages/PatientDashboard';
 import InsurerDashboard from './pages/InsurerDashboard';
@@ -27,7 +27,7 @@ export default function App() {
     setToasts((prev) => [...prev, { id, title, desc, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4500);
+    }, 5000);
   };
 
   const fetchClaims = async () => {
@@ -44,16 +44,47 @@ export default function App() {
 
   useEffect(() => {
     fetchClaims();
+
+    // Live real-time polling every 2.5 seconds to sync across tab sessions & roles
+    const interval = setInterval(() => {
+      api
+        .getClaims()
+        .then((latestClaims) => {
+          setClaims((prevClaims) => {
+            latestClaims.forEach((newClaim) => {
+              const oldClaim = prevClaims.find(
+                (c) => (c._id || c.claimId) === (newClaim._id || newClaim.claimId)
+              );
+              if (oldClaim && oldClaim.status !== newClaim.status) {
+                addToast(
+                  `Real-Time Update: Claim ${newClaim.claimId} ${newClaim.status}`,
+                  `Status updated to ${newClaim.status}${
+                    newClaim.status === 'Approved'
+                      ? ` (Approved Amount: ₹${(newClaim.approvedAmount || 0).toLocaleString()})`
+                      : ''
+                  }`,
+                  newClaim.status === 'Approved' ? 'success' : 'danger'
+                );
+              }
+            });
+            return latestClaims;
+          });
+        })
+        .catch((err) => console.error('Realtime sync error:', err));
+    }, 2500);
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleRoleSwitch = async (newRole) => {
     setCurrentRole(newRole);
+    fetchClaims(); // Instantly pull latest data from MongoDB when role changes
     try {
       const res = await api.demoLogin(newRole);
       setCurrentUser(res.user);
       addToast(
         `Switched to ${newRole === 'patient' ? 'Patient Portal' : 'Insurer Control Center'}`,
-        `Logged in as ${res.user.name}`,
+        `Active Role: ${res.user.name}`,
         'info'
       );
     } catch (err) {
@@ -90,9 +121,11 @@ export default function App() {
           <div key={t.id} className={`toast ${t.type}`}>
             <div className="toast-icon">
               {t.type === 'success' ? (
-                <CheckCircle2 size={20} color="#059669" />
+                <CheckCircle2 size={22} color="#059669" />
+              ) : t.type === 'danger' ? (
+                <AlertCircle size={22} color="#dc2626" />
               ) : (
-                <Info size={20} color="#2563eb" />
+                <Bell size={22} color="#2563eb" />
               )}
             </div>
             <div className="toast-content">

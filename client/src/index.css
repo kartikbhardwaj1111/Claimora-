@@ -16,7 +16,7 @@
   --primary-light: #eff6ff;
   --primary-border: #bfdbfe;
   --primary-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #2563eb 50%, #06b6d4 100%);
+  --accent-gradient: linear-gradient(135deg, hsl(243, 75%, 59%) 0%, #2563eb 50%, #06b6d4 100%);
 
   /* Status Colors */
   --success: #059669;
