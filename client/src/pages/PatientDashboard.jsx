@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PlusCircle, Upload, FileText, CheckCircle2, Clock, DollarSign, ArrowUpRight } from 'lucide-react';
+import { PlusCircle, Upload, FileText, CheckCircle2, Clock, DollarSign, Sparkles, FileCheck, ShieldCheck } from 'lucide-react';
 import StatusBadge from '../components/StatusBadge';
 
 export default function PatientDashboard({ currentUser, claims, onSubmitClaim, onViewDocument }) {
@@ -48,7 +48,7 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
       }
 
       await onSubmitClaim(formData);
-      setMessage('Claim submitted successfully! Your claim is now under review.');
+      setMessage('Claim submitted successfully! Your claim is now listed under Pending Review.');
       setClaimAmount('');
       setDescription('');
       setSelectedFile(null);
@@ -68,11 +68,41 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
 
   return (
     <div>
-      {/* Header Banner */}
-      <div className="page-header">
+      {/* Hero Welcome Banner */}
+      <div className="hero-banner">
         <div>
-          <h1 className="page-title">Patient Portal</h1>
-          <p className="page-subtitle">Submit healthcare reimbursement claims and track processing status in real time.</p>
+          <div className="hero-title">Patient Claims Portal</div>
+          <div className="hero-subtitle">Submit healthcare reimbursement requests, attach receipts, and track approval status in real time.</div>
+        </div>
+        <div className="hero-badge">
+          <ShieldCheck size={16} /> Verified Health Portal
+        </div>
+      </div>
+
+      {/* 3-Step Visual Process Stepper */}
+      <div className="stepper-grid">
+        <div className="stepper-card">
+          <div className="stepper-num">1</div>
+          <div>
+            <div style={{ fontWeight: '700', fontSize: '0.9rem' }}>Fill Claim Form</div>
+            <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Enter amount & description</div>
+          </div>
+        </div>
+
+        <div className="stepper-card">
+          <div className="stepper-num">2</div>
+          <div>
+            <div style={{ fontWeight: '700', fontSize: '0.9rem' }}>Attach Medical Receipt</div>
+            <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Upload PNG, JPG, or PDF</div>
+          </div>
+        </div>
+
+        <div className="stepper-card">
+          <div className="stepper-num">3</div>
+          <div>
+            <div style={{ fontWeight: '700', fontSize: '0.9rem' }}>Track Reimbursement</div>
+            <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Real-time status updates</div>
+          </div>
         </div>
       </div>
 
@@ -157,11 +187,11 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
           <div className="form-group">
             <label className="form-label">Requested Claim Amount (₹)</label>
             <div style={{ position: 'relative' }}>
-              <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', fontWeight: '700', color: '#64748b' }}>₹</span>
+              <span style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', fontWeight: '700', color: '#64748b' }}>₹</span>
               <input
                 type="number"
                 className="form-input"
-                style={{ paddingLeft: '2.2rem' }}
+                style={{ paddingLeft: '2.4rem' }}
                 value={claimAmount}
                 onChange={(e) => setClaimAmount(e.target.value)}
                 placeholder="e.g. 15000"
@@ -186,7 +216,7 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
           <div className="form-group">
             <label className="form-label">Upload Medical Document (Receipt / Prescription)</label>
             <div className="file-dropzone" onClick={() => document.getElementById('file-upload-input').click()}>
-              <Upload size={28} color="#2563eb" style={{ margin: '0 auto 0.6rem' }} />
+              <Upload size={30} color="#2563eb" style={{ margin: '0 auto 0.6rem' }} />
               <div style={{ fontWeight: '700', fontSize: '0.95rem', color: '#0f172a' }}>Click to select or Drag & Drop file here</div>
               <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '4px' }}>Supports PNG, JPG, or PDF files (Max 10MB)</div>
               <input
@@ -201,7 +231,7 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
             {selectedFile && (
               <div className="file-info">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <FileText size={18} color="#2563eb" />
+                  <FileCheck size={18} color="#2563eb" />
                   <span style={{ fontSize: '0.85rem', fontWeight: '700' }}>{selectedFile.name} ({Math.round(selectedFile.size / 1024)} KB)</span>
                 </div>
                 <button type="button" className="btn btn-secondary btn-sm" onClick={() => setSelectedFile(null)}>Remove</button>
@@ -219,7 +249,7 @@ export default function PatientDashboard({ currentUser, claims, onSubmitClaim, o
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <h3 className="card-title">My Submitted Claims</h3>
-          <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>{myClaims.length} Claims Total</span>
+          <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '700' }}>{myClaims.length} Claims Total</span>
         </div>
 
         {myClaims.length === 0 ? (
