@@ -42,7 +42,7 @@ async function seed() {
       createdAt: new Date(),
     },
     {
-      name: 'Sonali D',
+      name: 'Vikram Malhotra',
       email: 'insurer@aarogya.com',
       passwordHash,
       role: 'insurer',

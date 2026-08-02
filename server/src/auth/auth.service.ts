@@ -54,7 +54,7 @@ export class AuthService {
 
   async demoLogin(role: 'patient' | 'insurer') {
     const email = role === 'patient' ? 'patient@aarogya.com' : 'insurer@aarogya.com';
-    const name = role === 'patient' ? 'Rahul Sharma (Patient)' : 'Sonali D (Insurer Admin)';
+    const name = role === 'patient' ? 'Rahul Sharma (Patient)' : 'Vikram Malhotra (Insurer Admin)';
 
     let user = await this.userModel.findOne({ email });
     if (!user) {
