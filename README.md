@@ -31,6 +31,18 @@
 
 ---
 
+## 🎬 Project Demo Video Presentation
+
+Watch the comprehensive video demonstration of the **Claimora** platform covering patient claim submission, document inspection, insurer review, and real-time status updates:
+
+https://github.com/kartikbhardwaj1111/Claimora-/raw/main/Demo_presentation.mp4
+
+<div align="center">
+  <video src="https://github.com/kartikbhardwaj1111/Claimora-/raw/main/Demo_presentation.mp4" width="100%" controls title="Claimora Platform Video Walkthrough"></video>
+</div>
+
+---
+
 ## ⚡ Key Features
 
 ### 👤 1. Patient Portal
