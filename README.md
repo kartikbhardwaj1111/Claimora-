@@ -35,11 +35,11 @@
 
 Watch the comprehensive video demonstration of the **Claimora** platform covering patient claim submission, document inspection, insurer review, and real-time status updates:
 
-https://github.com/kartikbhardwaj1111/Claimora-/raw/main/Demo_presentation.mp4
+<p align="center">
+  <video src="https://raw.githubusercontent.com/kartikbhardwaj1111/Claimora-/main/Demo_presentation.mp4" controls="controls" width="100%" style="max-height: 520px; border-radius: 12px; border: 1px solid #e2e8f0;"></video>
+</p>
 
-<div align="center">
-  <video src="https://github.com/kartikbhardwaj1111/Claimora-/raw/main/Demo_presentation.mp4" width="100%" controls title="Claimora Platform Video Walkthrough"></video>
-</div>
+*Direct Link: [https://raw.githubusercontent.com/kartikbhardwaj1111/Claimora-/main/Demo_presentation.mp4](https://raw.githubusercontent.com/kartikbhardwaj1111/Claimora-/main/Demo_presentation.mp4)*
 
 ---
 
