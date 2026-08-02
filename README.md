@@ -7,16 +7,15 @@
 [![React](https://img.shields.io/badge/Frontend-React.js_v18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![NestJS](https://img.shields.io/badge/Backend-NestJS_v10-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com/)
 [![MongoDB](https://img.shields.io/badge/Database-MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![TypeScript](https://img.shields.io/badge/Language-TypeScript_v5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Build_Tool-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://claimora-beryl.vercel.app/)
 
 ---
 
 <p align="center">
+  <a href="https://claimora-beryl.vercel.app/"><b>🌐 LIVE DEMO WEB APP</b></a> •
   <a href="#-key-features">Key Features</a> •
   <a href="#-system-workflow">System Workflow</a> •
   <a href="#-tech-stack-rationale">Tech Stack</a> •
-  <a href="#-quick-start-guide">Quick Start</a> •
   <a href="#-api-endpoints">API Spec</a>
 </p>
 
