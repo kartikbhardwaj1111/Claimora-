@@ -60,6 +60,8 @@ Watch the comprehensive video demonstration of the **Claimora** platform coverin
 * 🔘 **1-Click Role Switcher**: Header bar toggle allowing assignment reviewers to switch between `Demo Patient` and `Demo Insurer` roles instantly without typing credentials.
 * 📦 **Auto-Seed Database Command**: Run `npm run seed` to automatically populate MongoDB Atlas with demo patients, insurers, and sample claims.
 
+
+Off Campus code -> 7H5K86
 ---
 
 ## 🔄 System Workflow
